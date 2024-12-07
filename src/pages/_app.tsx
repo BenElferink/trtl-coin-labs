@@ -12,7 +12,7 @@ const App = ({ Component, pageProps }: AppProps) => {
       <Head>
         <meta name='viewport' content='width=device-width, initial-scale=1.0' />
         <meta name='author' content='Ben Elferink' />
-
+        <meta name='keywords' content='cardano, solana, blockchain, trtl, nft, coin, meme, memecoin, community' />
         <meta name='description' content='' />
 
         <link rel='icon' type='image/x-icon' href='/favicon.ico' />
@@ -21,7 +21,7 @@ const App = ({ Component, pageProps }: AppProps) => {
         <link rel='apple-touch-icon' sizes='180x180' href='/apple-touch-icon.png' />
         <link rel='manifest' href='/manifest.json' />
 
-        <title>TRTL | Labs</title>
+        <title>$TRTL | Labs</title>
       </Head>
 
       <Toaster position='top-right' />

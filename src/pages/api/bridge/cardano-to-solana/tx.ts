@@ -51,7 +51,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
         const [[senderAddress, sentAmount]] = objEntries;
 
-        // const walletsCollection = firestore.collection('turtle-syndicate-wallets')
+        // const walletsCollection = firestore.collection('linked-wallets')
         // const bridgeCollection = firestore.collection('trtl-bridge-to-sol')
 
         // const { docs } = await walletsCollection.where('cardano', '==', senderAddress).get()

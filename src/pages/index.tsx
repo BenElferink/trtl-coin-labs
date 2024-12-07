@@ -14,7 +14,7 @@ export const getServerSideProps: GetServerSideProps<DBWalletPayload & { docId: s
   const id = (query.id || '') as string;
 
   if (!!id) {
-    const collection = firestore.collection('turtle-syndicate-wallets');
+    const collection = firestore.collection('linked-wallets');
     const doc = await collection.doc(id).get();
 
     if (doc.exists) {

@@ -11,7 +11,7 @@ export const config = {
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { method, query, body } = req;
 
-  const collection = firestore.collection('turtle-syndicate-wallets');
+  const collection = firestore.collection('linked-wallets');
 
   try {
     switch (method) {
