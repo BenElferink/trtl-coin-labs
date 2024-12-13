@@ -1,4 +1,4 @@
-# $TRTL Coin - Tools
+# $TRTL Coin - Labs
 
 - [App](https://trtl-labs.vercel.app/)
 

@@ -1,5 +1,5 @@
 {
-  "name": "trtl-coin-tools",
+  "name": "trtl-coin-labs",
   "version": "0.1.0",
   "private": true,
   "homepage": "/",
@@ -9,10 +9,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/BenElferink/trtl-coin-tools.git"
+    "url": "https://github.com/BenElferink/trtl-coin-labs.git"
   },
   "bugs": {
-    "url": "https://github.com/BenElferink/trtl-coin-tools/issues",
+    "url": "https://github.com/BenElferink/trtl-coin-labs/issues",
     "email": "ben.elferink@icloud.com"
   },
   "scripts": {
