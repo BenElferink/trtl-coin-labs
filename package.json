@@ -25,8 +25,8 @@
   "dependencies": {
     "@blockfrost/blockfrost-js": "^5.7.0",
     "@heroicons/react": "^2.2.0",
-    "@meshsdk/core": "^1.7.31",
-    "@meshsdk/react": "^1.7.31",
+    "@meshsdk/core": "^1.8.3",
+    "@meshsdk/react": "^1.8.3",
     "@solana/spl-token": "^0.4.6",
     "@solana/wallet-adapter-base": "^0.9.23",
     "@solana/wallet-adapter-react": "^0.15.35",
@@ -34,21 +34,21 @@
     "@solana/wallet-adapter-wallets": "^0.19.32",
     "@solana/web3.js": "^1.93.1",
     "axios": "^1.7.9",
-    "firebase": "^11.0.2",
-    "next": "^15.0.4",
+    "firebase": "^11.1.0",
+    "next": "^15.1.2",
     "react": "^18",
     "react-dom": "^18",
     "react-hot-toast": "^2.4.1"
   },
   "devDependencies": {
-    "@types/node": "22.10.1",
+    "@types/node": "22.10.2",
     "@types/react": "18.3.12",
     "@types/react-dom": "^18",
     "autoprefixer": "^10.4.20",
     "eslint": "^9",
-    "eslint-config-next": "15.0.4",
+    "eslint-config-next": "15.1.2",
     "postcss": "^8",
-    "tailwindcss": "^3.4.16",
+    "tailwindcss": "^3.4.17",
     "typescript": "5.7.2"
   }
 }
