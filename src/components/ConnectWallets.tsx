@@ -109,8 +109,9 @@ const ConnectWallets = (props: {
   }
 
   useEffect(() => {
-    if (ready && !done && cardano.connected && solana.connected) saveWallets()
-    else if (ready && !done && !cardano.connected && solana.connected) {
+    if (ready && !done) saveWallets()
+
+    if (!cardano.connected) {
       const walletName = localStorage.getItem('cardano_wallet')
       if (walletName) cardano.connect(walletName)
     }
