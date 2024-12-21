@@ -1,4 +1,4 @@
-export interface SubmittedPayload {
+export interface SubmittedWalletPayload {
   id: any
   cardano: any
   solana: any
@@ -9,7 +9,7 @@ export interface DBWalletPayload {
   solana: string
 }
 
-export interface DBBridgePayload {
+export interface DBBridgeToSolanaPayload {
   adaTxHash: string
   adaAddress: string
   adaAmount: number
@@ -19,7 +19,16 @@ export interface DBBridgePayload {
   done: boolean
 }
 
-export interface DbMintPayload {
+export interface DBMintTurtlePayload {
+  timestamp: number
+  didBurn: boolean
+  didMint: boolean
+  address: string
+  amount: number
+  amountMinted?: number
+}
+
+export interface DBMintSidekickPayload {
   timestamp: number
   txHash: string
   didSend: boolean

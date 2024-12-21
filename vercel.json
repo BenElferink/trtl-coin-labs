@@ -1,12 +1,12 @@
 {
   "crons": [
     {
-      "path": "/api/bridge/cardano-to-solana/cron",
-      "schedule": "0 * * * *"
+      "path": "/api/sidekick/cron",
+      "schedule": "0 */12 * * *"
     },
     {
-      "path": "/api/sidekick/cron",
-      "schedule": "0 * * * *"
+      "path": "/api/turtle/cron",
+      "schedule": "0 */12 * * *"
     }
   ]
 }

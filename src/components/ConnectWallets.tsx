@@ -1,116 +1,121 @@
-import { Dispatch, Fragment, SetStateAction, useEffect, useState } from 'react';
-import axios from 'axios';
-import toast from 'react-hot-toast';
-import { useWallet as useCardanoWallet } from '@meshsdk/react';
-import { useWallet as useSolanaWallet } from '@solana/wallet-adapter-react';
-import { WalletMultiButton as SolanaWalletMultiButton } from '@solana/wallet-adapter-react-ui';
-import { ArrowsRightLeftIcon, ArrowsUpDownIcon, CheckBadgeIcon } from '@heroicons/react/24/solid';
-import Loader from '@/components/Loader';
-import WalletUrl from './WalletUrl';
-import Button, { RedButton } from '@/components/Button';
-import CardanoWalletModal from '@/components/CardanoWalletModal';
-import type { SubmittedPayload } from '@/@types';
+import { Dispatch, Fragment, SetStateAction, useEffect, useState } from 'react'
+import axios from 'axios'
+import toast from 'react-hot-toast'
+import { useWallet as useCardanoWallet } from '@meshsdk/react'
+import { useWallet as useSolanaWallet } from '@solana/wallet-adapter-react'
+import { WalletMultiButton as SolanaWalletMultiButton } from '@solana/wallet-adapter-react-ui'
+import { ArrowsRightLeftIcon, ArrowsUpDownIcon, CheckBadgeIcon } from '@heroicons/react/24/solid'
+import Loader from '@/components/Loader'
+import WalletUrl from './WalletUrl'
+import Button, { RedButton } from '@/components/Button'
+import CardanoWalletModal from '@/components/CardanoWalletModal'
+import type { SubmittedWalletPayload } from '@/@types'
 
 const ConnectWallets = (props: {
   ready: boolean
   done: boolean
   setDone: Dispatch<SetStateAction<boolean>>
-  submitted: SubmittedPayload
-  setSubmitted: Dispatch<SetStateAction<SubmittedPayload>>
+  submitted: SubmittedWalletPayload
+  setSubmitted: Dispatch<SetStateAction<SubmittedWalletPayload>>
 }) => {
-  const { ready, done, setDone, submitted, setSubmitted } = props;
+  const { ready, done, setDone, submitted, setSubmitted } = props
 
-  const cardano = useCardanoWallet();
-  const solana = useSolanaWallet();
+  const cardano = useCardanoWallet()
+  const solana = useSolanaWallet()
 
-  const [openCardanoModal, setOpenCardanoModal] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [openCardanoModal, setOpenCardanoModal] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   const saveWallets = async () => {
-    setLoading(true);
+    setLoading(true)
 
-    let cAddy = submitted.cardano || '';
+    let cAddy = submitted.cardano || ''
 
     if (!cAddy && cardano.connected) {
-      const cUsedAddresses = await cardano.wallet.getUsedAddresses();
+      const cUsedAddresses = await cardano.wallet.getUsedAddresses()
 
       if (cUsedAddresses.length) {
-        cAddy = cUsedAddresses[0];
+        cAddy = cUsedAddresses[0]
       } else {
-        cAddy = await cardano.wallet.getChangeAddress();
+        cAddy = await cardano.wallet.getChangeAddress()
       }
+
+      if (cardano.name) localStorage.setItem('cardano_wallet', cardano.name)
     }
 
-    let sAddy = submitted.solana || '';
+    let sAddy = submitted.solana || ''
 
     if (!sAddy && solana.connected) {
-      sAddy = solana.publicKey?.toBase58() || '';
+      sAddy = solana.publicKey?.toBase58() || ''
 
       if (!sAddy) {
-        sAddy = solana.wallet?.adapter.publicKey?.toBase58() || '';
+        sAddy = solana.wallet?.adapter.publicKey?.toBase58() || ''
       }
     }
 
     const payload = {
-      cardano: cAddy ,
+      cardano: cAddy,
       solana: sAddy,
-    };
+    }
 
-    const hasAllWallets = !!payload.cardano && !!payload.solana;
-    const toastId = hasAllWallets ? toast.loading('Linking wallets...', { duration: 1000 * 300 }) : '';
-    
+    const hasAllWallets = !!payload.cardano && !!payload.solana
+    const toastId = hasAllWallets ? toast.loading('Linking wallets...', { duration: 1000 * 300 }) : ''
+
     try {
-      const { data } = await axios.post(`/api/wallets?`, payload);
-      const item = data.items[0];
+      const { data } = await axios.post('/api/wallets', payload)
+      const item = data.items[0]
 
-      setSubmitted(item);
+      setSubmitted(item)
 
       if (hasAllWallets) {
-        toast.dismiss(toastId);
-        toast.success('Successfully linked wallets', { duration: 1000 * 5 });
+        toast.dismiss(toastId)
+        toast.success('Successfully linked wallets', { duration: 1000 * 5 })
 
-        setDone(true);
+        setDone(true)
       } else if (!!item.cardano && !!item.solana) {
-        setDone(true);
+        setDone(true)
       }
     } catch (error: any) {
-      console.error(error?.message || error);
+      console.error(error?.message || error)
 
-      toast.dismiss(toastId);
-      toast.error('Failed to link wallets', { duration: 1000 * 5 });
+      toast.dismiss(toastId)
+      toast.error('Failed to link wallets', { duration: 1000 * 5 })
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   const unlinkWallets = async () => {
-    setLoading(true);
-    const toastId = toast.loading('Unlinking wallets...', { duration: 1000 * 300 });
+    setLoading(true)
+    const toastId = toast.loading('Unlinking wallets...', { duration: 1000 * 300 })
 
     try {
+      cardano.disconnect()
+      await solana.disconnect()
 
-      cardano.disconnect();
-      await solana.disconnect();
+      toast.dismiss(toastId)
+      toast.success('Successfully unlinked wallets', { duration: 1000 * 5 })
 
-      toast.dismiss(toastId);
-      toast.success('Successfully unlinked wallets', { duration: 1000 * 5 });
-
-      setSubmitted({ id: '', cardano: '', solana: '' });
-      setDone(false);
+      setSubmitted({ id: '', cardano: '', solana: '' })
+      setDone(false)
     } catch (error: any) {
-      console.error(error?.message || error);
+      console.error(error?.message || error)
 
-      toast.dismiss(toastId);
-      toast.error('Failed to unlink wallets', { duration: 1000 * 5 });
+      toast.dismiss(toastId)
+      toast.error('Failed to unlink wallets', { duration: 1000 * 5 })
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   useEffect(() => {
-    if (ready && !done && (cardano.connected || solana.connected)) saveWallets();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ready, done, cardano.connected, solana.connected]);
+    if (ready && !done && cardano.connected && solana.connected) saveWallets()
+    else if (ready && !done && !cardano.connected && solana.connected) {
+      const walletName = localStorage.getItem('cardano_wallet')
+      if (walletName) cardano.connect(walletName)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ready, done, cardano.connected, solana.connected])
 
   if (done) {
     return (
@@ -127,10 +132,10 @@ const ConnectWallets = (props: {
         </p>
 
         <div className='my-4'>
-          <RedButton label='Unlink Wallets'  onClick={unlinkWallets} />
+          <RedButton label='Unlink Wallets' onClick={unlinkWallets} />
         </div>
       </div>
-    );
+    )
   }
 
   return (
@@ -185,16 +190,16 @@ const ConnectWallets = (props: {
           <Button
             label='Copy Link'
             onClick={() => {
-              navigator.clipboard.writeText(`https://trtl-labs.vercel.app/?id=${submitted.id}`);
+              navigator.clipboard.writeText(`https://trtl-labs.vercel.app/?id=${submitted.id}`)
 
-              toast.success('Successfully Copied', { duration: 10000 });
-              toast.loading('Now paste the link in your other wallet', { duration: 10000 });
+              toast.success('Successfully Copied', { duration: 10000 })
+              toast.loading('Now paste the link in your other wallet', { duration: 10000 })
             }}
           />
         </div>
       ) : null}
     </div>
-  );
-};
+  )
+}
 
-export default ConnectWallets;
+export default ConnectWallets

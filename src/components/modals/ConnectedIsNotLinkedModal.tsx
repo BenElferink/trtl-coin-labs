@@ -1,7 +1,7 @@
-import Modal from '../Modal';
-import WalletUrl from '../WalletUrl';
-import { RedButton } from '../Button';
-import type { SubmittedPayload } from '@/@types';
+import Modal from '../Modal'
+import WalletUrl from '../WalletUrl'
+import { RedButton } from '../Button'
+import type { SubmittedWalletPayload } from '@/@types'
 
 const ConnectedIsNotLinkedModal = ({
   open,
@@ -15,7 +15,7 @@ const ConnectedIsNotLinkedModal = ({
   onClose: () => void
   onDisconnect: () => void
   type: 'cardano' | 'solana'
-  submitted: SubmittedPayload
+  submitted: SubmittedWalletPayload
   connectedAddress: string
 }) => {
   return (
@@ -36,7 +36,7 @@ const ConnectedIsNotLinkedModal = ({
         <RedButton label='Disconnect' onClick={onDisconnect} />
       </div>
     </Modal>
-  );
-};
+  )
+}
 
-export default ConnectedIsNotLinkedModal;
+export default ConnectedIsNotLinkedModal
